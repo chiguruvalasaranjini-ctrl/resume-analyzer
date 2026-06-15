@@ -15,7 +15,14 @@ public class GeminiService {
     private final String GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
     public String analyzeResume(String resumeText) {
-        String prompt = "Analyze this resume and provide: 1. ATS Score (out of 100) 2. Skills Found 3. Missing Skills 4. Job Recommendations (5 roles) 5. Improvement Suggestions. Resume: " + resumeText;
+        String prompt = "Analyze this resume and respond ONLY in this exact format, with no extra text, no markdown, no asterisks, before or after:\n\n" +
+            "ATS_SCORE: <a single number out of 100>\n" +
+            "ATS_REASON: <one paragraph explanation of the score>\n" +
+            "SKILLS_FOUND: <comma-separated list of skills found in the resume>\n" +
+            "MISSING_SKILLS: <comma-separated list of skills that are missing but relevant>\n" +
+            "JOB_RECOMMENDATIONS: <exactly 5 entries, each formatted as 'Job Title: one sentence reason', separated by a pipe character |>\n" +
+            "IMPROVEMENT_SUGGESTIONS: <list of suggestions, each separated by a pipe character |>\n\n" +
+            "Resume:\n" + resumeText;
 
         RestTemplate restTemplate = new RestTemplate();
 
